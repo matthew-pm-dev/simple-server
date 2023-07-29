@@ -1,0 +1,32 @@
+---
+## download and install apache2 on linux servers
+## dynamically handles multiple distros
+- name: install apache
+  hosts: all
+  become: true
+  vars:
+    config_file: files/test.conf
+
+  handlers:
+    - name: restart apache
+      service: name="{{ apache_service }}" state=restarted
+
+  pre_tasks:
+    - name: load variable files
+      include_vars: "{{ item }}"
+      with_first_found:
+        - "vars/apache_{{ ansible_os_family }}.yml"
+        - "vars/apache_default.yml"
+
+  tasks:
+    - name: ensure apache is installed
+      package: name="{{ apache_package }}" update_cache=yes state=latest
+
+    - name: copy config file
+      copy:
+        src: "{{ config_file }}"
+        dest: "{{ apache_config_dir }}/test.conf"
+      notify: restart apache
+
+    - name: ensure apache is running and starts at boot
+      service: name="{{ apache_service }}" state=started enabled=true

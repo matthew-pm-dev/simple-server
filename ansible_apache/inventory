@@ -1,0 +1,11 @@
+ubuntu:
+  hosts:
+    54.161.205.124:
+  vars:
+    ansible_user: ubuntu
+
+redhat:
+  hosts:
+    3.92.208.222:
+  vars:
+    ansible_user: ec2-user
