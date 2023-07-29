@@ -37,3 +37,12 @@ variable "ssh_admin_key" {
   type        = string
   default     = "mpm-admin-ssh-key"
 }
+
+## Security group config variables
+
+variable "admin_ip_range" {
+  description = "Define IP range open for administrative SSH access"
+  type        = list
+  default     = ["0.0.0.0/0"]     # wide-open access - not secure
+  #default    = ["#.#.#.#/32"]    # configure local machine public IP
+}

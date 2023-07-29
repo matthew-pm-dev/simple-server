@@ -56,7 +56,7 @@ resource "aws_security_group" "ext1-secgroup" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.admin_ip_range
   }
 
   #allow inbound http requests on port 80
